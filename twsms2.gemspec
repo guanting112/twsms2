@@ -10,9 +10,9 @@ Gem::Specification.new do |spec|
   spec.email         = ["cgt886@gmail.com"]
   spec.license       = "MIT"
   spec.platform      = Gem::Platform::RUBY
-  spec.summary       = %q{2016 台灣簡訊 TwSMS API ( for ruby >= 2.1 )}
-  spec.description   = %q{2016 台灣簡訊 TwSMS API ( for ruby >= 2.1 )}
-  spec.homepage      = "https://github.com/guanting112"
+  spec.summary       = %q{2016 台灣簡訊 TwSMS API ( for ruby / rails )}
+  spec.description   = %q{2016 台灣簡訊 TwSMS API ( for ruby / rails )}
+  spec.homepage      = "https://github.com/guanting112/twsms2"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
