@@ -1,7 +1,7 @@
 Twsms2 ( 2016 台灣簡訊 TwSMS API 套件 )
 ======================================
 
-[![Gem Version](https://badge.fury.io/rb/twsms2.svg)](https://badge.fury.io/rb/twsms2)
+[![Gem Version](https://badge.fury.io/rb/twsms2.svg)](https://badge.fury.io/rb/twsms2) [![Build Status](https://travis-ci.org/guanting112/twsms2.svg?branch=master)](https://travis-ci.org/guanting112/twsms2)
 
 ![twsms](http://i.imgur.com/KVuaBIm.png)
 
@@ -15,7 +15,7 @@ Twsms2 ( 2016 台灣簡訊 TwSMS API 套件 )
 請在您的 Ruby 或 Rails 專案裡的 Gemfile 加入以下指令
 
 ```ruby
-gem 'twsms2', '~> 0.9.5'
+gem 'twsms2', '~> 1.0.0'
 ```
 
 然後執行 bundle install 更新套件組
