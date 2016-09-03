@@ -5,6 +5,18 @@ module Twsms2
       match_data.nil? ? nil : match_data[1]
     end
 
+    def format_time_string(time)
+      return nil if time.nil?
+      new_time = to_asia_taipei_timezone(time)
+      new_time.strftime('%Y%m%d%H%M')
+    end
+
+    def to_asia_taipei_timezone(time)
+      utc_time = time.utc? ? time.dup : time.dup.utc
+      asia_taipei_time = utc_time.getlocal('+08:00')
+      asia_taipei_time
+    end
+
     def format_send_message_info(original_info)
       new_info = {
         access_success: false,

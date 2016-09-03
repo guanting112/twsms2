@@ -24,10 +24,11 @@ module Twsms2
     def send_message(options={})
       options[:to]      ||= nil
       options[:content] ||= nil
+      options[:at]      = format_time_string(options[:at])
       options[:long]    = options[:long] || options[:long].nil? ? :Y : :N
       options[:popup]   = options[:popup] ? :Y : :N
 
-      response = get(@api_host, '/smsSend.php', popup: options[:popup], mo: :N, longsms: options[:long], mobile: options[:to], message: options[:content], drurl: '')
+      response = get(@api_host, '/smsSend.php', popup: options[:popup], mo: :N, longsms: options[:long], mobile: options[:to], message: options[:content], drurl: '', sendtime: options[:at])
 
       format_send_message_info(response)
     end
