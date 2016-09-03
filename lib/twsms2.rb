@@ -9,7 +9,7 @@ module Twsms2
     include Twsms2::Formatter
 
     def initialize(options={})
-      @user_agent = "twsms2/#{VERSION}"
+      @user_agent = options.fetch(:agent) { "twsms2/#{VERSION}" }
       @api_host   = options.fetch(:host) { 'api.twsms.com' }
       @username   = options.fetch(:username) { ENV.fetch('TWSMS_USERNAME') }
       @password   = options.fetch(:password) { ENV.fetch('TWSMS_PASSWORD') }
