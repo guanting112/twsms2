@@ -51,6 +51,7 @@ sms_client = Twsms2::Client.new(username: '台灣簡訊的會員帳號', passwor
 sms_client.account_is_available
 ```
 
+----
 
 ### 發送簡訊
 
@@ -95,6 +96,7 @@ error code 的部分，請以 台灣簡訊 API 文件的定義為主，本套件
 {:access_success=>false, :message_id=>nil, :error=>"TWSMS:00010"}
 ```
 
+----
 
 ### 查詢簡訊餘額
 
