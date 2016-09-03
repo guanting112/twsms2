@@ -1,13 +1,18 @@
-Twsms2 ( 2016 台灣簡訊 TwSMS API 套件 )
-======================================
+Twsms2 ( 2016 新版 台灣簡訊 TwSMS API Ruby 版套件 )
+=================================================
 
 [![Gem Version](https://badge.fury.io/rb/twsms2.svg)](https://badge.fury.io/rb/twsms2) [![Build Status](https://travis-ci.org/guanting112/twsms2.svg?branch=master)](https://travis-ci.org/guanting112/twsms2)
 
 ![twsms](http://i.imgur.com/KVuaBIm.png)
 
-此為針對 [台灣簡訊][twsms_homepage] TwSMS API 開發的專屬套件，支援 Ruby ( >= 2.1 ) 或 Ruby On Rails 
+此為針對 [台灣簡訊][twsms_homepage] TwSMS API 開發的專屬套件
 
-您可以透過該套件來實作台灣簡訊的基本簡訊發送 與 簡訊餘額查詢 的程式
+您可以透過該套件來實作台灣簡訊的一般、預約簡訊發送 與 簡訊餘額查詢 的程式
+
+適用於
+--------
+
+Ruby 2 以上的版本，也可在 Ruby On Rails 專案引入
 
 安裝方式
 --------
@@ -63,6 +68,20 @@ sms_client.account_is_available
 
 ```ruby
 sms_client.send_message to: '手機號碼', content: "簡訊內容.."
+```
+
+#### 預約發送
+
+若要使用預約發送，可以指定 at 參數給 send_message 方法
+
+同時程式會自動轉換時區 至 台灣簡訊 適用的時區 ( +08:00 )
+
+```ruby
+# 純 Ruby 請用加秒數的方式
+sms_client.send_message to: '手機號碼', content: "預約簡訊測試: #{Time.now}", at: Time.now + 120
+
+# 在 Ruby On Rails 專案則可以用 Rails 專用的方法
+sms_client.send_message to: '手機號碼', content: "預約簡訊測試: #{Time.now}", at: Time.now + 2.days
 ```
 
 #### 強制直接顯示簡訊內容
