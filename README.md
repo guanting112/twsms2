@@ -51,6 +51,7 @@ sms_client = Twsms2::Client.new(username: '台灣簡訊的會員帳號', passwor
 sms_client.account_is_available
 ```
 
+
 ### 發送簡訊
 
 手機號碼可以為 8869XXYYYZZZ 或 09XXYYYZZZ 的格式 ( 以簡訊系統商建議的格式為主 )
@@ -75,6 +76,7 @@ sms_client.send_message to: '手機號碼', content: "簡訊內容 #{Time.now}",
 sms_client.send_message to: '手機號碼', content: "簡訊內容 #{Time.now}", long: false
 ```
 
+
 ### 發送簡訊 的 回傳結果
 
 當你執行完成後，send_message 方法會回傳一組 hash 型態的結果
@@ -93,6 +95,7 @@ error code 的部分，請以 台灣簡訊 API 文件的定義為主，本套件
 {:access_success=>false, :message_id=>nil, :error=>"TWSMS:00010"}
 ```
 
+
 ### 查詢簡訊餘額
 
 若你需要查詢您會員帳號的簡訊餘額，可以用以下指令處理
@@ -100,6 +103,7 @@ error code 的部分，請以 台灣簡訊 API 文件的定義為主，本套件
 ```ruby
 sms_client.get_balance
 ```
+
 
 ### 查詢簡訊餘額 的 回傳結果
 
