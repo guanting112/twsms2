@@ -57,6 +57,8 @@ sms_client.account_is_available
 
 手機號碼可以為 8869XXYYYZZZ 或 09XXYYYZZZ 的格式 ( 以簡訊系統商建議的格式為主 )
 
+
+
 一般方式
 
 ```ruby
