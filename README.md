@@ -37,7 +37,7 @@ gem 'twsms2', '~> 1.0.0'
 require 'twsms2'
 
 # Twsms2 是走 https 的方式進行系統操作
-sms_client = Twsms2::Client.new(username: '台灣簡訊的會員帳號', password: '台灣簡訊的會員密碼')
+sms_client = Twsms2::Client.new(username: '會員帳號', password: '會員密碼', agent: "Mozilla/5.0 (可自訂 user-agent)")
 ```
 
 使用範例
@@ -55,41 +55,55 @@ sms_client.account_is_available
 
 ### 發送簡訊
 
-手機號碼可以為 8869XXYYYZZZ 或 09XXYYYZZZ 的格式 ( 以簡訊系統商建議的格式為主 )
+#### 一般使用
 
-一般方式
+手機號碼格式 0911222333 ( 台灣手機 )、886911222333 ( 國碼 + 手機號碼 )
 
-```ruby
-sms_client.send_message to: '手機號碼', content: "簡訊內容 #{Time.now}"
-```
-
-你可以加入 popup 參數告訴簡訊系統，發送簡訊到收訊人的手機時要直接顯示 ( 但不會儲存在手機 )
+根據台灣簡訊說明，台灣門號每則扣 1 通，國際門號每則扣 3 通
 
 ```ruby
-sms_client.send_message to: '手機號碼', content: "簡訊內容 #{Time.now}", popup: true
+sms_client.send_message to: '手機號碼', content: "簡訊內容.."
 ```
 
-本套件發送簡訊時，預設為長簡訊發送，因此若超 SMS 短信字元長度，將會以第二封起開始計算
+#### 強制直接顯示簡訊內容
 
-當然您可以關閉該設計，請加入 long 參數，並指定為 false 即可
+可以加入 popup 參數，讓簡訊在收訊人的手機裝置直接顯示在上面 ( 可能不會被手機儲存 )
 
 ```ruby
-sms_client.send_message to: '手機號碼', content: "簡訊內容 #{Time.now}", long: false
+sms_client.send_message to: '手機號碼', content: "簡訊內容..", popup: true
 ```
 
-----
+#### 關閉長簡訊支援
+
+一般發送簡訊時，預設為長簡訊發送
+
+因此，若超 SMS 短信字元長度，將會以第二封起開始計算
+
+加入 long 參數，若指定為 false 則不會使用長簡訊格式
+
+```ruby
+sms_client.send_message to: '手機號碼', content: "簡訊內容..", long: false
+```
 
 ### 發送簡訊 的 回傳結果
 
+#### 發送成功
+
 當你執行完成後，send_message 方法會回傳一組 hash 型態的結果
 
-只要 access_success 的值為 true 就一定代表發送成功，若為 false 則表示過程有出現錯誤
+只要 access_success 的值為 true 就一定代表發送成功
+
+系統會另外回傳一組 message_id 用來讓你追蹤簡訊
 
 ```ruby
 {:access_success=>true, :message_id=>"217620029", :error=>nil}
 ```
 
-例如：以下為帳號密碼的錯誤，error 將會記錄台灣簡訊的 error code
+#### 發生錯誤時
+
+若 access_success 為 false 則表示過程有出現錯誤
+
+以下範例為帳號密碼的錯誤，error 參數則是台灣簡訊的 error code
 
 error code 的部分，請以 台灣簡訊 API 文件的定義為主，本套件不處理相關結果
 
@@ -107,9 +121,9 @@ error code 的部分，請以 台灣簡訊 API 文件的定義為主，本套件
 sms_client.get_balance
 ```
 
-----
-
 ### 查詢簡訊餘額 的 回傳結果
+
+#### 得到簡訊餘額
 
 當你執行完成後，get_balance 方法會回傳一組 hash 型態的結果
 
@@ -121,6 +135,8 @@ message_quota 則是簡訊餘額，代表你還剩幾封可以用，若為 0 就
 # 備註：簡訊商若發送過程中出現意外狀況，會晚點將簡訊額度補回您的會員帳號
 {:access_success=>true, :message_quota=>77, :error=>nil}
 ```
+
+#### 發生錯誤
 
 若 access_success 為 false 則表示過程有出現錯誤，同時 message_quota 會為 0
 
