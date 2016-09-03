@@ -11,6 +11,12 @@ describe 'Twsms2::Client' do
     @sms_client = Twsms2::Client.new(username: @fake_username, password: @fake_password)
   end
 
+  describe '確認一下字串編碼是否為 UTF-8' do
+    it '必須要是 UTF-8' do
+      "簡訊測試 #{Time.now}".encoding.to_s.must_equal('UTF-8')
+    end
+  end
+
   describe '測試 client 的用的 轉換 time zone 方法' do
     it '應該會是 +8:00 的時區' do
       custom_time_with_leap_year   = Time.new(2008, 2, 29, 1, 2, 3, '+12:00')
