@@ -57,8 +57,6 @@ sms_client.account_is_available
 
 手機號碼可以為 8869XXYYYZZZ 或 09XXYYYZZZ 的格式 ( 以簡訊系統商建議的格式為主 )
 
-
-
 一般方式
 
 ```ruby
@@ -79,6 +77,7 @@ sms_client.send_message to: '手機號碼', content: "簡訊內容 #{Time.now}",
 sms_client.send_message to: '手機號碼', content: "簡訊內容 #{Time.now}", long: false
 ```
 
+----
 
 ### 發送簡訊 的 回傳結果
 
@@ -108,6 +107,7 @@ error code 的部分，請以 台灣簡訊 API 文件的定義為主，本套件
 sms_client.get_balance
 ```
 
+----
 
 ### 查詢簡訊餘額 的 回傳結果
 
