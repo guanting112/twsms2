@@ -15,7 +15,7 @@ Twsms2 ( 2016 台灣簡訊 TwSMS API 套件 )
 請在您的 Ruby 或 Rails 專案裡的 Gemfile 加入以下指令
 
 ```ruby
-gem 'twsms2', '~> 0.9.0'
+gem 'twsms2', '~> 0.9.5'
 ```
 
 然後執行 bundle install 更新套件組
