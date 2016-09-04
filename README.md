@@ -1,7 +1,9 @@
 Twsms2 ( 2016 新版 台灣簡訊 TwSMS API Ruby 版套件 )
 =================================================
 
-[![Gem Version](https://badge.fury.io/rb/twsms2.svg)](https://badge.fury.io/rb/twsms2) [![Build Status](https://travis-ci.org/guanting112/twsms2.svg?branch=master)](https://travis-ci.org/guanting112/twsms2)
+[![Gem Version](https://badge.fury.io/rb/twsms2.svg)](https://badge.fury.io/rb/twsms2)
+[![Build Status](https://travis-ci.org/guanting112/twsms2.svg?branch=master)](https://travis-ci.org/guanting112/twsms2)
+[![Code Climate](https://codeclimate.com/github/guanting112/twsms2/badges/gpa.svg)](https://codeclimate.com/github/guanting112/twsms2)
 
 ![twsms](http://i.imgur.com/KVuaBIm.png)
 
@@ -88,7 +90,7 @@ sms_client.send_message to: '手機號碼', content: "預約簡訊測試: #{Time
 
 #### 強制直接顯示簡訊內容
 
-可以加入 popup 參數，讓簡訊在收訊人的手機裝置直接顯示在上面 ( 可能不會被手機儲存 )
+可以加入 popup 參數，讓簡訊在收訊人的手機上直接顯示，但有可能不會被手機儲存
 
 ```ruby
 sms_client.send_message to: '手機號碼', content: "簡訊內容..", popup: true
@@ -96,15 +98,17 @@ sms_client.send_message to: '手機號碼', content: "簡訊內容..", popup: tr
 
 #### 關閉長簡訊支援
 
-一般發送簡訊時，預設為長簡訊發送
+一般發送簡訊時，程式預設支援長簡訊發送
 
-因此，若超 SMS 短信字元長度，將會以第二封起開始計算
+因此，若超 SMS 簡訊字元長度，將會以第二封起開始計算
 
 加入 long 參數，若指定為 false 則不會使用長簡訊格式
 
 ```ruby
 sms_client.send_message to: '手機號碼', content: "簡訊內容..", long: false
 ```
+
+詳細規則請以 台灣簡訊 公告為主
 
 ### 發送簡訊 的 回傳結果
 
@@ -157,7 +161,7 @@ message_quota 則是簡訊餘額，代表你還剩幾封可以用，若為 0 就
 {:access_success=>true, :message_quota=>77, :error=>nil}
 ```
 
-#### 發生錯誤
+#### 發生錯誤時
 
 若 access_success 為 false 則表示過程有出現錯誤，同時 message_quota 會為 0
 
