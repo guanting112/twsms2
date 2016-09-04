@@ -17,8 +17,7 @@ module Twsms2
 
     def account_is_available
       balance_info = get_balance
-
-      ok = balance_info[:message_quota] > 0 && balance_info[:access_success]
+      balance_info[:message_quota] > 0 && balance_info[:access_success]
     end
 
     def send_message(options={})
