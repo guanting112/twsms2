@@ -1,5 +1,4 @@
 require 'minitest/autorun'
-# require 'webmock/minitest'
 require 'twsms2'
 require 'json'
 
