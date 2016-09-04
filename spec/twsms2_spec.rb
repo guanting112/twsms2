@@ -34,7 +34,7 @@ describe 'Twsms2::Client' do
   describe '當 client 建立時，有指定 agent 參數，get 方法裡的 user-agent 是否會改變 ' do
     it '應該會變成使用者自訂的 user-agent 字串 ( 以 httpbin.org/get 為準 )' do
       custom_user_agnet = "agent: #{Time.now.to_i}"
-      sms_client = Twsms2::Client.new(username: @fake_username, password: @fake_password, agent: custom_user_agnet)
+      sms_client = Twsms2::Client.new(username: nil, password: nil, agent: custom_user_agnet)
       response = JSON.parse(sms_client.get('httpbin.org', '/get'))
       response['headers']['User-Agent'].must_equal(custom_user_agnet)
     end
