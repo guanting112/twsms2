@@ -38,14 +38,23 @@ gem 'twsms2', '~> 1.1.0'
 
 本 API 套件，提供幾組以下方法來方便您開發簡訊相關服務
 
-但要使用前，需要先[註冊台灣簡訊的會員][twsms_signup]，否則您的程式無法存取台灣簡訊的 API 管道
+基本執行範例如下，但要使用前，需要先[註冊台灣簡訊的會員][twsms_signup]，否則無法存取相關服務
 
 ```ruby
 require 'twsms2'
 
-# Twsms2 是走 https 的方式進行系統操作
+# 程式將會以 SSL 的方式，走 https 連線到簡訊商的系統
+sms_client = Twsms2::Client.new(username: '會員帳號', password: '會員密碼')
+```
+
+也可以加入 agent ( user-agent ) 跟 timeout ( 逾時時間/秒 ) 參數 至 client 物件
+
+```ruby
 sms_client = Twsms2::Client.new(
-  username: '會員帳號', password: '會員密碼', agent: "Mozilla/5.0 (可自訂 user-agent)"
+  username: '會員帳號',
+  password: '會員密碼',
+  agent: "Mozilla/5.0 ( Hello World )",
+  timeout: 10
 )
 ```
 
@@ -59,8 +68,6 @@ sms_client = Twsms2::Client.new(
 ```ruby
 sms_client.account_is_available
 ```
-
-----
 
 ### 發送簡訊
 
@@ -169,6 +176,28 @@ message_quota 則是簡訊餘額，代表你還剩幾封可以用，若為 0 就
 {:access_success=>false, :message_quota=>0, :error=>"TWSMS:00010"}
 ```
 
+----
+
+例外狀況的處理
+--------
+
+在某些情況下，程式會擲出一些例外給 ruby 去處理，你可以先用 Twsms2 自帶的 Error 來先做 rescue
+
+```ruby
+
+begin
+  sms_client.account_is_available
+rescue Twsms2::ClientError
+  'Client 物件有內部錯誤'
+rescue Twsms2::ServerError => error
+  "伺服器端有一些無法處理的狀況 #{error.message}"
+rescue Twsms2::ClientTimeoutError
+  "發生 Timeout 囉"
+rescue Twsms2::Error => error
+  "發生非預期的錯誤 #{error.message}"
+end
+
+```
 
 LICENSE
 --------
