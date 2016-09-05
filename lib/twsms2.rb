@@ -13,6 +13,7 @@ module Twsms2
       @api_host   = options.fetch(:host) { 'api.twsms.com' }
       @username   = options.fetch(:username) { ENV.fetch('TWSMS_USERNAME') }
       @password   = options.fetch(:password) { ENV.fetch('TWSMS_PASSWORD') }
+      @timeout    = options.fetch(:timeout) { 10 }
     end
 
     def account_is_available
