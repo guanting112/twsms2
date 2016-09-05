@@ -37,5 +37,15 @@ module Twsms2
 
       format_balance_info(response)
     end
+
+    def get_message_status(options={})
+      options[:message_id] ||= nil
+      options[:phone_number] ||= nil
+
+      response = get(@api_host, '/smsQuery.php', mobile: options[:phone_number], msgid: options[:message_id])
+
+      format_message_status(response)
+    end
+
   end
 end

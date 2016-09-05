@@ -17,6 +17,49 @@ module Twsms2
       asia_taipei_time
     end
 
+    def format_message_status_text(original_text)
+      new_text = case original_text
+                 when 'DELIVRD'  then 'delivered'
+                 when 'EXPIRED'  then 'expired'
+                 when 'DELETED'  then 'deleted'
+                 when 'UNDELIV'  then 'undelivered'
+                 when 'ACCEPTD'  then 'transmitting'
+                 when 'UNKNOWN'  then 'unknown'
+                 when 'REJECTD'  then 'rejected'
+                 when 'SYNTAXE'  then 'incorrect_sms_system_syntax'
+                 when 'MOBERROR' then 'incorrect_phone_number'
+                 when 'MSGERROR' then 'incorrect_content'
+                 when 'OTHERROR' then 'sms_system_other_error'
+                 when 'REJERROR' then 'illegal_content'
+                 else 'status_undefined'
+                 end
+
+      new_text
+    end
+
+    def format_message_status(original_info)
+      new_info = {
+        access_success: false,
+        is_delivered: false,
+        message_status: nil,
+        error: nil
+      }
+
+      code_text  = match_string(/<code>(?<code>\w+)<\/code>/, original_info)
+      status_text = match_string(/<statustext>(?<status>\w+)<\/statustext>/, original_info)
+
+      new_info[:access_success] = !code_text.nil? && !status_text.nil? && code_text == '00000'
+
+      if new_info[:access_success]
+        new_info[:message_status] = format_message_status_text(status_text)
+        new_info[:is_delivered]   = new_info[:message_status] == 'delivered'
+      else
+        new_info[:error] = code_text.nil? ? "TWSMS:CODE_NOT_FOUND" : "TWSMS:#{code_text}".upcase
+      end
+
+      new_info
+    end
+
     def format_send_message_info(original_info)
       new_info = {
         access_success: false,

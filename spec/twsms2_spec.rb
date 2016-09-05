@@ -10,6 +10,42 @@ describe 'Twsms2::Client' do
     @sms_client = Twsms2::Client.new(username: @fake_username, password: @fake_password)
   end
 
+  describe '測試 format_message_status_text 方法' do
+    it '必須通過以下一連串的測試，全部通過須為 true' do
+
+      default_status = true
+      result = default_status
+      undefined_status = "#{Time.now}"
+
+      test_data_collection = [
+        { original_status: 'DELIVRD', it_should_be: 'delivered' },
+        { original_status: 'EXPIRED', it_should_be: 'expired' },
+        { original_status: 'DELETED', it_should_be: 'deleted' },
+        { original_status: 'UNDELIV', it_should_be: 'undelivered' },
+        { original_status: 'ACCEPTD', it_should_be: 'transmitting' },
+        { original_status: 'UNKNOWN', it_should_be: 'unknown' },
+        { original_status: 'REJECTD', it_should_be: 'rejected' },
+        { original_status: 'SYNTAXE', it_should_be: 'incorrect_sms_system_syntax' },
+        { original_status: 'MOBERROR', it_should_be: 'incorrect_phone_number' },
+        { original_status: 'MSGERROR', it_should_be: 'incorrect_content' },
+        { original_status: 'OTHERROR', it_should_be: 'sms_system_other_error' },
+        { original_status: 'REJERROR', it_should_be: 'illegal_content' },
+        { original_status: undefined_status, it_should_be: 'status_undefined' }
+      ]
+
+      test_data_collection.each do |test_data|
+        incorrect = @sms_client.format_message_status_text(test_data[:original_status]) != test_data[:it_should_be]
+
+        if incorrect
+          result = false
+          break
+        end
+      end
+
+      result.must_equal(true)
+    end
+  end
+
   describe '確認一下字串編碼是否為 UTF-8' do
     it '必須要是 UTF-8' do
       "簡訊測試 #{Time.now}".encoding.to_s.must_equal('UTF-8')
@@ -48,6 +84,12 @@ describe 'Twsms2::Client' do
   describe '以不存在的帳號密碼，使用 get_balance 方法' do
     it '必須回傳錯誤的結果，ERROR 的部分需要為 TWSMS:00010' do
       @sms_client.get_balance.must_equal({:access_success=>false, :message_quota=>0, :error=>"TWSMS:00010"})
+    end
+  end
+
+  describe '以不存在的帳號密碼，使用 get_balance 方法' do
+    it '必須回傳錯誤的結果，ERROR 的部分需要為 TWSMS:00010' do
+      @sms_client.get_message_status(message_id: '1234', phone_number: '0912345678').must_equal({:access_success=>false, :is_delivered=>false, :message_status=>nil, :error=>"TWSMS:00010"})
     end
   end
 end
