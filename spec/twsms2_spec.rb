@@ -34,7 +34,7 @@ describe 'Twsms2::Client' do
       ]
 
       test_data_collection.each do |test_data|
-        incorrect = @sms_client.format_message_status_text(test_data[:original_status]) != test_data[:it_should_be]
+        incorrect = @sms_client.message_status_sanitize(test_data[:original_status]) != test_data[:it_should_be]
 
         if incorrect
           result = false
