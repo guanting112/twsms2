@@ -145,7 +145,7 @@ error code 的部分，請以 台灣簡訊 API 文件的定義為主，本套件
 
 ----
 
-### 查詢簡訊餘額
+### 查詢目前帳號所持有的簡訊餘額
 
 若你需要查詢您會員帳號的簡訊餘額，可以用以下指令處理
 
@@ -153,7 +153,7 @@ error code 的部分，請以 台灣簡訊 API 文件的定義為主，本套件
 sms_client.get_balance
 ```
 
-### 查詢簡訊餘額 的 回傳結果
+### 查詢目前帳號所持有的簡訊餘額 的 回傳結果
 
 #### 得到簡訊餘額
 
@@ -174,6 +174,56 @@ message_quota 則是簡訊餘額，代表你還剩幾封可以用，若為 0 就
 
 ```ruby
 {:access_success=>false, :message_quota=>0, :error=>"TWSMS:00010"}
+```
+
+### 查詢特定的簡訊發送狀態
+
+若你需要查詢特定的簡訊發送狀態，您可以指定 手機號碼 跟 message id 向簡訊商查詢該封簡訊最後是否已發送成功
+
+```ruby
+sms_client.get_message_status(message_id: '在 send_message 得到的 message_id', phone_number: '手機號碼')
+```
+
+### 查詢特定的簡訊發送狀態 的 回傳結果
+
+#### 得到發送狀況
+
+當你執行完成後，get_message_status 方法會回傳一組 hash 型態的結果
+
+只要 access_success 的值為 true 就一定代表系統有成功取得資料
+
+is_delivered 代表是否已寄到用戶手機，true 為是、false 為有發生 delivered 以外的狀況
+
+message_status 代表訊息狀態，可以知道是否已抵達 或是 發生通信上的錯誤 等等的相關資訊
+
+```ruby
+{:access_success=>true, :is_delivered=>true, :message_status=>"delivered", :error=>nil}
+```
+
+#### get_message_status 裡的 message_status 涵義
+
+```ruby
+'delivered'                   # 簡訊已抵達 
+'expired'                     # 簡訊寄送超過有效時間 
+'deleted'                     # 已被刪除 
+'undelivered'                 # 無法送達 
+'transmitting'                # 傳輸中，正在接收 
+'unknown'                     # 未知錯誤，可能無效 
+'rejected'                    # 被拒絕 
+'incorrect_sms_system_syntax' # 簡訊商編碼錯誤 
+'incorrect_phone_number'      # 不正確的電話號碼 
+'incorrect_content'           # 不正確的內容 
+'sms_system_other_error'      # 簡訊商系統錯誤 
+'illegal_content'             # 不合法的簡訊內容 
+'status_undefined'            # 核心 API 無法得知狀況 
+```
+
+#### 發生錯誤時
+
+若 access_success 為 false 則表示過程有出現錯誤，同時 is_delivered 會為 false，message_status 也會是 nil
+
+```ruby
+{:access_success=>false, :is_delivered=>false, :message_status=>nil, :error=>"TWSMS:00010"})
 ```
 
 ----
