@@ -17,7 +17,7 @@ module Twsms2
       asia_taipei_time
     end
 
-    def format_message_status_text(original_text)
+    def message_status_sanitize(original_text)
       new_text = case original_text
                  when 'DELIVRD'  then 'delivered'
                  when 'EXPIRED'  then 'expired'
@@ -51,7 +51,7 @@ module Twsms2
       new_info[:access_success] = !code_text.nil? && !status_text.nil? && code_text == '00000'
 
       if new_info[:access_success]
-        new_info[:message_status] = format_message_status_text(status_text)
+        new_info[:message_status] = message_status_sanitize(status_text)
         new_info[:is_delivered]   = new_info[:message_status] == 'delivered'
       else
         new_info[:error] = code_text.nil? ? "TWSMS:CODE_NOT_FOUND" : "TWSMS:#{code_text}".upcase
