@@ -21,6 +21,8 @@ module Twsms2
         raise ClientError, "#{http_response.code} response from #{host}"
       when Net::HTTPServerError
         raise ServerError, "#{http_response.code} response from #{host}"
+      when 'READ_TIMEOUT'
+        raise ClientTimeoutError, "Read Timeout from #{host}"
       else
         raise Error, "#{http_response.code} response from #{host}"
       end
@@ -28,8 +30,11 @@ module Twsms2
 
     def request(uri, message)
       http = Net::HTTP.new(uri.host, Net::HTTP.https_default_port)
+      http.read_timeout = @timeout
       http.use_ssl = true
       http.request(message)
+    rescue Net::ReadTimeout
+      'READ_TIMEOUT'
     end
 
     def query_string(params)

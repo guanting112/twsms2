@@ -13,6 +13,7 @@ module Twsms2
       @api_host   = options.fetch(:host) { 'api.twsms.com' }
       @username   = options.fetch(:username) { ENV.fetch('TWSMS_USERNAME') }
       @password   = options.fetch(:password) { ENV.fetch('TWSMS_PASSWORD') }
+      @timeout    = options.fetch(:timeout) { 10 }
     end
 
     def account_is_available
@@ -37,5 +38,15 @@ module Twsms2
 
       format_balance_info(response)
     end
+
+    def get_message_status(options={})
+      options[:message_id] ||= nil
+      options[:phone_number] ||= nil
+
+      response = get(@api_host, '/smsQuery.php', mobile: options[:phone_number], msgid: options[:message_id])
+
+      format_message_status(response)
+    end
+
   end
 end
