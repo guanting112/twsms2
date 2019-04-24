@@ -1,4 +1,4 @@
-Twsms2 ( 2016 新版 台灣簡訊 TwSMS API Ruby 版套件 )
+Twsms2 ( 台灣簡訊 TwSMS API Ruby 版套件 )
 =================================================
 
 [![Gem Version](https://badge.fury.io/rb/twsms2.svg)](https://badge.fury.io/rb/twsms2)
