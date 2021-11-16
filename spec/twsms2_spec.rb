@@ -42,19 +42,19 @@ describe 'Twsms2::Client' do
         end
       end
 
-      result.must_equal(true)
+      _(result).must_equal(true)
     end
   end
 
   describe '確認一下字串編碼是否為 UTF-8' do
     it '必須要是 UTF-8' do
-      "簡訊測試 #{Time.now}".encoding.to_s.must_equal('UTF-8')
+      _("簡訊測試 #{Time.now}".encoding.to_s).must_equal('UTF-8')
     end
   end
 
   describe '測試 client 的用的 轉換 time zone 方法' do
     it '應該會是 +8:00 的時區' do
-      custom_time_with_leap_year   = Time.new(2008, 2, 29, 1, 2, 3, '+12:00')
+      custom_time_with_leap_year = Time.new(2008, 2, 29, 1, 2, 3, '+12:00')
       custom_time_2_with_leap_year = Time.new(2008, 2, 29, 10, 20, 30, '+12:00')
       new_time = @sms_client.to_asia_taipei_timezone(custom_time_with_leap_year)
 
@@ -62,7 +62,7 @@ describe 'Twsms2::Client' do
                custom_time_2_with_leap_year != new_time && 
                new_time.strftime('%z') == '+0800'
 
-      result.must_equal(true)
+      _(result).must_equal(true)
     end
   end
 
@@ -71,25 +71,29 @@ describe 'Twsms2::Client' do
       custom_user_agnet = "agent: #{Time.now.to_i}"
       sms_client = Twsms2::Client.new(username: nil, password: nil, agent: custom_user_agnet)
       response = JSON.parse(sms_client.get('httpbin.org', '/get'))
-      response['headers']['User-Agent'].must_equal(custom_user_agnet)
+      _(response['headers']['User-Agent']).must_equal(custom_user_agnet)
     end
   end
 
   describe '以不存在的帳號密碼，使用 send_message 方法' do
     it '必須回傳錯誤的結果，ERROR 的部分需要為 TWSMS:00010' do
-      @sms_client.send_message.must_equal({:access_success=>false, :message_id=>nil, :error=>"TWSMS:00010"})
+      _(@sms_client.send_message).must_equal({:access_success=>false, :message_id=>nil, :error=>"TWSMS:00010"})
     end
   end
 
   describe '以不存在的帳號密碼，使用 get_balance 方法' do
     it '必須回傳錯誤的結果，ERROR 的部分需要為 TWSMS:00010' do
-      @sms_client.get_balance.must_equal({:access_success=>false, :message_quota=>0, :error=>"TWSMS:00010"})
+      response = @sms_client.get_balance
+
+      _(response).must_equal({:access_success=>false, :message_quota=>0, :error=>"TWSMS:00010"})
     end
   end
 
   describe '以不存在的帳號密碼，使用 get_message_status 方法' do
     it '必須回傳錯誤的結果，ERROR 的部分需要為 TWSMS:00010' do
-      @sms_client.get_message_status(message_id: '1234', phone_number: '0912345678').must_equal({:access_success=>false, :is_delivered=>false, :message_status=>nil, :error=>"TWSMS:00010"})
+      response = @sms_client.get_message_status(message_id: '1234', phone_number: '0912345678')
+
+      _(response).must_equal({:access_success=>false, :is_delivered=>false, :message_status=>nil, :error=>"TWSMS:00010"})
     end
   end
 end

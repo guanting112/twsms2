@@ -10,10 +10,10 @@ Gem::Specification.new do |spec|
   spec.email         = ["cgt886@gmail.com"]
   spec.license       = "MIT"
   spec.platform      = Gem::Platform::RUBY
-  spec.summary       = %q{2016 新版 台灣簡訊 TwSMS API ( 純 Ruby / Rails 專案適用 )}
-  spec.description   = %q{2016 新版 台灣簡訊 TwSMS API ( 純 Ruby / Rails 專案適用 )}
+  spec.summary       = %q{2021 新版 台灣簡訊 TwSMS API ( 純 Ruby / Rails 專案適用 )}
+  spec.description   = %q{2021 新版 台灣簡訊 TwSMS API ( 純 Ruby / Rails 專案適用 )}
   spec.homepage      = "https://github.com/guanting112/twsms2"
-  spec.required_ruby_version = '~> 2'
+  spec.required_ruby_version = '>= 2'
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_development_dependency "bundler", "~> 1.7"
-  spec.add_development_dependency "rake", "~> 10.0"
+  spec.add_development_dependency "bundler", "<3.0", ">=1.7"
+  spec.add_development_dependency "rake", ">= 12.3.3"
   spec.add_development_dependency 'minitest', '~> 5.0'
 end
