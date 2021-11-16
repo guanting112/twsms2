@@ -28,13 +28,13 @@ module Twsms2
       options[:long]    = options[:long] || options[:long].nil? ? :Y : :N
       options[:popup]   = options[:popup] ? :Y : :N
 
-      response = get(@api_host, '/smsSend.php', popup: options[:popup], mo: :N, longsms: options[:long], mobile: options[:to], message: options[:content], drurl: '', sendtime: options[:at])
+      response = get(@api_host, '/json/sms_send.php', popup: options[:popup], mo: :N, longsms: options[:long], mobile: options[:to], message: options[:content], drurl: '', sendtime: options[:at])
 
       format_send_message_info(response)
     end
 
     def get_balance
-      response = get(@api_host, '/smsQuery.php', deltime: :N, checkpoint: :Y, mobile: '', msgid: '')
+      response = get(@api_host, '/json/sms_query.php', deltime: :N, checkpoint: :Y, mobile: '', msgid: '')
 
       format_balance_info(response)
     end
@@ -43,7 +43,7 @@ module Twsms2
       options[:message_id] ||= nil
       options[:phone_number] ||= nil
 
-      response = get(@api_host, '/smsQuery.php', mobile: options[:phone_number], msgid: options[:message_id])
+      response = get(@api_host, '/json/sms_query.php', mobile: options[:phone_number], msgid: options[:message_id])
 
       format_message_status(response)
     end

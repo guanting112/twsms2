@@ -30,6 +30,7 @@ describe 'Twsms2::Client' do
         { original_status: 'MSGERROR', it_should_be: 'incorrect_content' },
         { original_status: 'OTHERROR', it_should_be: 'sms_system_other_error' },
         { original_status: 'REJERROR', it_should_be: 'illegal_content' },
+        { original_status: 'REJMOBIL', it_should_be: 'device_rejected' },
         { original_status: undefined_status, it_should_be: 'status_undefined' }
       ]
 
@@ -91,7 +92,7 @@ describe 'Twsms2::Client' do
 
   describe '以不存在的帳號密碼，使用 get_message_status 方法' do
     it '必須回傳錯誤的結果，ERROR 的部分需要為 TWSMS:00010' do
-      response = @sms_client.get_message_status(message_id: '1234', phone_number: '0912345678')
+      response = @sms_client.get_message_status(message_id: '360011100', phone_number: '0911000222')
 
       _(response).must_equal({:access_success=>false, :is_delivered=>false, :message_status=>nil, :error=>"TWSMS:00010"})
     end
