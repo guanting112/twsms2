@@ -13,7 +13,7 @@ Twsms2 ( 台灣簡訊 TwSMS API Ruby 版套件 )
 適用於
 --------
 
-Ruby 2 以上的版本，也可在 Ruby On Rails 專案引入
+Ruby 2、3 以上的版本，也可在 Ruby On Rails 專案引入
 
 安裝方式
 --------
@@ -21,7 +21,7 @@ Ruby 2 以上的版本，也可在 Ruby On Rails 專案引入
 請在您的 Ruby 或 Rails 專案裡的 Gemfile 加入以下指令
 
 ```ruby
-gem 'twsms2', '=> 1.3.0'
+gem 'twsms2', '~> 1.3.0'
 ```
 
 然後執行 bundle install 更新套件組
